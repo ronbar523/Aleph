@@ -1,0 +1,20 @@
+Overview
+This web application allows users to manage and configure connectors to various providers such as AWS, Azure, Google Cloud, etc. 
+It provides a dashboard where users can view, create, and configure connectors and connector types.
+
+Entities
+Connector
+A Connector represents a configuration for connecting to different providers
+
+Dashboard
+The home page of the application is a dashboard displaying a table of created connectors. The table shows key details of each connector.
+
+
+Create Connector
+clients can create new connectors via:
+Page: A dedicated page for connector creation.
+
+Technologies Used
+Frontend: [React JS, MUI]
+Backend: [Node JS]
+Database: [Mongo DB]

@@ -3,7 +3,8 @@ import { IconButton, TextField } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-const TOKEN_REGEX = /^[A-Za-z\s.\(\)0-9]{6,12}$/;
+const TOKEN_REGEX = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,12}$/
+// /^[A-Za-z\s.\(\)0-9]{6,12}$/;
 
 const TokenInput = ({
   token,

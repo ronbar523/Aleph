@@ -2,6 +2,8 @@ const joi = require("joi");
 const urlRegex =
   /https?:\/\/(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+([\/a-zA-Z0-9#]+\/?)*(\?[a-zA-Z0-9=&]*)?/;
 
+const tokenRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,12}$/
+
 const connectorSkeleton = {
   name: joi.string().min(3).max(15).trim().required(),
   status: joi.boolean().required(),
@@ -12,7 +14,7 @@ const connectorSkeleton = {
     })
     .required(),
   credentials: {
-    token: joi.string().min(6).max(12).required(),
+    token: joi.string().pattern(tokenRegex).required(),
   },
 };
 

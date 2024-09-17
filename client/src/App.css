@@ -8,6 +8,7 @@
   background-color: #f5f5f5;
 }
 
+
 .card-container {
   display: flex;
   flex-wrap: wrap;
@@ -64,4 +65,23 @@
   font-size: 20px;
   margin-left: 10px;
   margin-top: -45px;
+}
+
+.fotter-home {
+  height: 30px;
+  background-color: #f5f5f5;
+}
+
+.footer-type-list {
+  height: 10px;
+  background-color: #f5f5f5;
+}
+.fotter-form1 {
+  height: 10px;
+  background-color: #f5f5f5;
+}
+
+.fotter-form2 {
+  height: 60px;
+  background-color: #f5f5f5;
 }

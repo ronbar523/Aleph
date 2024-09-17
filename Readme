@@ -7,11 +7,14 @@ Connector
 A Connector represents a configuration for connecting to different providers
 
 Dashboard
-The home page of the application is a dashboard displaying a table of created connectors. The table shows key details of each connector.
+The home page of the application is a dashboard displaying a table of created connectors. The table shows key details of each connector,
+have option to sort the key details by buttons.
 
+TypeList Page
+The Page displaying list that sort by categories of the connector type, do you have option to choose one and create with him new connector
 
 Create Connector
-clients can create new connectors via:
+clients can create new connectors.
 Page: A dedicated page for connector creation.
 
 Technologies Used

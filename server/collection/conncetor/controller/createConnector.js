@@ -4,7 +4,6 @@ const ConnectorFunction = require("../model/function/connectorFunction");
 const create = async (req, res) => {
   try {
 
-    console.log(req.body)
     const requestBody = await ConnecotrValidation.createSchema.validateAsync(
       req.body,
       { abortEarly: false }
@@ -14,11 +13,12 @@ const create = async (req, res) => {
 
     const connector = await ConnectorFunction.createConnector(
       requestBody.name,
-      connectorType,
+      requestBody.connectorType,
       requestBody.status,
       requestBody.description,
       requestBody.config.url,
-      requestBody.credentials.token
+      connectorType,
+      requestBody.credentials.token,
     );
 
     res.json({
@@ -28,7 +28,7 @@ const create = async (req, res) => {
     });
     
   } catch (err) {
-
+console.log(err)
     res.status(400).json({ status: 400, err: err });
   }
 };

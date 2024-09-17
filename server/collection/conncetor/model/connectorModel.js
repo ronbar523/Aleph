@@ -1,42 +1,26 @@
 const mongoose = require("mongoose");
 
-const connectorSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-
-  connectorType: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: "Connectors_Type",
-    required: true,
-  },
-
-  status: {
-    type: Boolean,
-    required: true,
-  },
-
-  description: {
-    type: String,
-    required: true,
-  },
-
+const ConnectorSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  connectorType: { type: mongoose.SchemaTypes.Mixed, required: true },
+  status: { type: Boolean, default: true },
+  description: { type: String, required: true },
   config: {
-    url: {
-      type: String,
-      required: true,
-    },
+    url: { type: String, required: true },
   },
 
   credentials: {
-    token: {
-      type: String,
+    typeId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "Connectors_Type",
+      required: true,
     },
+
+    token: { type: String, required: false },
   },
 });
 
-const Connector = mongoose.model("Connectors", connectorSchema);
+const Connector = mongoose.model("Connectors", ConnectorSchema);
 
 module.exports = {
   Connector,

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 
-const DESECRIPTION_REGEX = /^[A-Za-z\s.\(\)0-9]{10,200}$/;
-
 const DescriptionInput = ({
   description,
   setDescription,
@@ -20,7 +18,7 @@ const DescriptionInput = ({
         let str = description.substr(1);
         setDescription(str);
       } else {
-        const result = DESECRIPTION_REGEX.test(description);
+        const result = (description.length >= 20)
         setValidDescription(result);
       }
     }
@@ -33,7 +31,8 @@ const DescriptionInput = ({
       label="Description"
       variant="outlined"
       multiline
-      rows={3}
+      rows={2}
+      inputProps={{ maxLength: 200 }}
       error={!validDescription && !descriptionFocus}
       onChange={(e) => setDescription(e.target.value)}
       onFocus={() => setDescriptionFocus(true)}

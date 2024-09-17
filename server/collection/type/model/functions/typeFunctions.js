@@ -1,12 +1,22 @@
 const { ConnectorType } = require("../typeModel");
 
-const createType = async (name, image, category, token) => {
+const createType = async (
+  name,
+  image,
+  category,
+  type,
+  validationRegex,
+  isCredentials
+) => {
   const newType = new ConnectorType({
     name,
     image,
     category,
-    credentials: {
-      token,
+    fields: {
+      name,
+      type,
+      validationRegex,
+      isCredentials
     },
   });
   return newType.save();

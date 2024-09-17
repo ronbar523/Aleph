@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Box } from "@mui/material";
 import Title from "../Components/ConnectorForm/Title/Title";
 import NameInput from "../Components/ConnectorForm/Input/NameInput";
@@ -8,13 +9,15 @@ import TokenInput from "../Components/ConnectorForm/Input/TokenInput";
 import StatusSwich from "../Components/ConnectorForm/Swich/StatusSwich";
 import Send from "../Components/ConnectorForm/Button/Send";
 import SnackBar from "../Components/ConnectorForm/SnackBar/SnackBar";
+import TypeOptions from "../Components/ConnectorForm/TypeOptions/TypeOptions";
 
 const ConnectorForm = () => {
-  const [connectorTypeName, setConnectorTypeName] = useState("");
-  const [connectorType, setConnectorType] = useState("");
+  const location = useLocation();
+  const typeConnectorDetails = location.state;
+  const isCredentials = typeConnectorDetails.fields[0].isCredentials;
 
-  const [name, setName] = useState("");
-  const [validName, setValidName] = useState("");
+  const [type, setType] = useState("");
+  const [validType, setValidType] = useState("");
 
   const [description, setDescription] = useState("");
   const [validDescription, setValidDescription] = useState("");
@@ -31,16 +34,6 @@ const ConnectorForm = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-  const inputRefName = useRef();
-
-  useEffect(() => {
-    const urlSite = window.location.href;
-    const urlWordsArr = urlSite.split(/[/]/);
-    setConnectorType(urlWordsArr[urlWordsArr.length - 2]);
-    setConnectorTypeName(urlWordsArr[urlWordsArr.length - 1]);
-    inputRefName.current.focus();
-  }, []);
-
   return (
     <>
       <Box
@@ -48,7 +41,7 @@ const ConnectorForm = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          marginTop: "15px",
+          marginTop: isCredentials ? "6px" : "40px",
         }}
       >
         <Box
@@ -58,23 +51,16 @@ const ConnectorForm = () => {
             width: "470px",
             border: "2px solid #ccc",
             borderRadius: "10px",
-            pt: "17px",
-            pb: "21px",
-            pl: "30px",
-            pr: "30px",
+            padding: "17px 30px 21px 30px",
             gap: 3,
           }}
         >
           {/* Title */}
-          <Title connectorTypeName={connectorTypeName} />
+          <Title />
 
           {/* Name Field */}
           <NameInput
-            validName={validName}
-            setValidName={setValidName}
-            name={name}
-            setName={setName}
-            inputRefName={inputRefName}
+            typeConnectorDetails={typeConnectorDetails}
           />
 
           {/* Description Field */}
@@ -94,11 +80,23 @@ const ConnectorForm = () => {
           />
 
           {/* Token Field */}
-          <TokenInput
-            token={token}
-            setToken={setToken}
-            validToken={validToken}
-            setValidToken={setValidToken}
+          {isCredentials ? (
+            <TokenInput
+              typeConnectorDetails={typeConnectorDetails}
+              token={token}
+              setToken={setToken}
+              validToken={validToken}
+              setValidToken={setValidToken}
+            />
+          ) : null}
+
+          {/* Type Field */}
+          <TypeOptions
+            type={type}
+            setType={setType}
+            validType={validType}
+            setValidType={setValidType}
+            typeConnectorDetails={typeConnectorDetails}
           />
 
           {/* Status Switch */}
@@ -106,11 +104,12 @@ const ConnectorForm = () => {
 
           {/* Submit Button */}
           <Send
-            connectorType={connectorType}
-            name={name}
+          isCredentials={isCredentials}
+            typeConnectorDetails={typeConnectorDetails}
             status={status}
             description={description}
-            validName={validName}
+            type={type}
+            validType={validType}
             url={url}
             token={token}
             validDescription={validDescription}
@@ -121,6 +120,7 @@ const ConnectorForm = () => {
             setOpenSnackbar={setOpenSnackbar}
           />
         </Box>
+
         {/* SnackBar */}
         <SnackBar
           openSnackbar={openSnackbar}
@@ -129,6 +129,7 @@ const ConnectorForm = () => {
           snackbarMessage={snackbarMessage}
         />
       </Box>
+      <div className={isCredentials ? "fotter-form1" : "fotter-form2"}></div>
     </>
   );
 };

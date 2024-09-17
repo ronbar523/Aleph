@@ -1,12 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 
-const CrateConnector = ({ chooseTypeId, chooseTypeName }) => {
+const NextButton = ({ chooseTypeId, typeObj }) => {
+  const navigate = useNavigate();
+
+
   return (
     <>
       <Button
         sx={{
           ml: "15px",
           mt: "10px",
+          width: "100px",
           border: "2px solid #007BFF",
           borderRadius: "8px",
           textTransform: "unset",
@@ -27,13 +32,15 @@ const CrateConnector = ({ chooseTypeId, chooseTypeName }) => {
             borderColor: "#d6d6d6",
           },
         }}
-        onClick={() => (window.location = `/create_connector/${chooseTypeId}/${chooseTypeName}`)}
+        onClick={() =>
+          navigate(`/create_connector/${chooseTypeId}`, { state: typeObj })
+        }
         disabled={chooseTypeId === ""}
       >
-        Create New Connector
+        Next
       </Button>
     </>
   );
 };
 
-export default CrateConnector;
+export default NextButton;

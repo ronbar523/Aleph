@@ -1,10 +1,10 @@
 import { Button } from "@mui/material";
 
-const TypeCard = ({ item, chooseTypeId, setChooseTypeId, setChooseTypeName }) => {
+const TypeCard = ({ item, chooseTypeId, setChooseTypeId, setTypeObj }) => {
 
-  const handleButtonClick = (itemId, itemName) => {
+  const handleButtonClick = (itemId) => {
+    setTypeObj((prev) => (Object.keys(prev).length !== 0 ? {} : item));
     setChooseTypeId((prev) => (prev === itemId ? "" : itemId));
-    setChooseTypeName((prev) => (prev === itemName ? "" : itemName))
   };
 
   return (
@@ -18,15 +18,11 @@ const TypeCard = ({ item, chooseTypeId, setChooseTypeId, setChooseTypeName }) =>
         }}
         className="card-button"
         key={item._id}
-        onClick={() => handleButtonClick(item._id, item.name)}
+        onClick={() => handleButtonClick(item._id)}
       >
         <div className="card">
           <div className="card-image-container">
-            <img
-              src={item.image}
-              alt={item.name}
-              className="card-image"
-            />
+            <img src={item.image} alt={item.name} className="card-image" />
           </div>
           <div className="card-content">
             <h2 className="card-title">{item.name}</h2>

@@ -3,18 +3,32 @@ import { IconButton, TextField } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-const TOKEN_REGEX = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,12}$/
-// /^[A-Za-z\s.\(\)0-9]{6,12}$/;
+const regexOnlyNumbers = "/^[0-9]{6,12}$/";
+const regexAlphanumeric  = "/^[a-zA-Z0-9]{6,12}$/"
 
 const TokenInput = ({
+  typeConnectorDetails,
   token,
   setToken,
   validToken,
   setValidToken,
 }) => {
     
+  const validationRegex = typeConnectorDetails.fields[0].validationRegex
+  const TOKEN_REGEX = new RegExp(validationRegex.replace(/^\/|\/$/g, ''))
   const [tokenFocus, setTokenFocus] = useState(true);
   const [showToken, setShowToken] = useState(false);
+  const [tokenRegexMessage, setTokenRegexMessage] = useState("");
+
+  useEffect(() => {
+    if(validationRegex === regexOnlyNumbers){
+      setTokenRegexMessage("Token must include only numbers and be between 6-12 characters")
+    } else if(validationRegex === regexAlphanumeric) {
+      setTokenRegexMessage("Token can include only numbers and letters and must be between 6-12 characters.")
+    } else {
+      setTokenRegexMessage("Token can include numbers, letters, and special characters and must be between 6-12 characters.")
+    }
+  }, [])
 
   useEffect(() => {
     if (token === " ") {
@@ -44,6 +58,7 @@ const TokenInput = ({
       onBlur={() => setTokenFocus(false)}
       value={token}
       InputProps={{
+        maxLength: 12, 
         endAdornment: (
           <IconButton
             aria-label="toggle password visibility"
@@ -56,7 +71,7 @@ const TokenInput = ({
         ),
       }}
       helperText={
-        !validToken ? "Token must be between 6-12 characters" : "Valid token"
+        !validToken ? tokenRegexMessage : "Valid token"
       }
     />
   );

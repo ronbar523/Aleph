@@ -1,11 +1,9 @@
 import { Typography } from "@mui/material";
 
-const Title = ({
-    connectorTypeName
-}) => {
+const Title = () => {
   return (
     <Typography variant="h5" gutterBottom sx={{ textAlign: "center" }}>
-      Create Connector ({connectorTypeName})
+      Create Connector
     </Typography>
   );
 };

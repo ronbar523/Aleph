@@ -1,73 +1,96 @@
 import { useEffect, useState } from "react";
-import { findAllTypes } from "../Services/TypeService";
-import { Box } from "@mui/material";
-import TypeCard from "../Components/Home/TypeCard";
-import CrateConnector from "../Components/Home/CrateConnector";
+import { getAllConnector } from "../Services/ConnectorService";
+import CreateConnector from "../Components/Home/CreateConnector";
+import {
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Box,
+} from "@mui/material";
+import NameHead from "../Components/Home/Table/TableHead/NameHead";
+import TypeHead from "../Components/Home/Table/TableHead/TypeHead";
+import StatusHead from "../Components/Home/Table/TableHead/StatusHead";
+import UrlHead from "../Components/Home/Table/TableHead/UrlHead";
+import DescriptionHead from "../Components/Home/Table/TableHead/DescriptionHead";
+import NameBody from "../Components/Home/Table/TableBody/NameBody";
+import TypeBody from "../Components/Home/Table/TableBody/TypeBody";
+import StatusBody from "../Components/Home/Table/TableBody/StatusBody";
+import UrlBody from "../Components/Home/Table/TableBody/UrlBody";
+import DescriptionBody from "../Components/Home/Table/TableBody/DescriptionBody";
 
 const Home = () => {
+  const [arrConnectors, setArrConnectors] = useState([]);
+  const [isLoadingConnectors, setIsLoadingConnectors] = useState(true);
 
-  const arrCategories = ["Cloud provider", "Data lake", "Edr", "Saas", "Vpn"];
-  const [arrTypes, setArrTypes] = useState([]);
-  const [isLoadingTypes, setIsLoadingTypes] = useState(true);
-  const [chooseTypeId, setChooseTypeId] = useState("")
-  const [chooseTypeName, setChooseTypeName] = useState("")
-
-  // Fetch and set type connectors from the data source when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await findAllTypes().then((res) => {
-          setArrTypes(res.data.response);
-          setIsLoadingTypes(false);
+        await getAllConnector().then((res) => {
+          setArrConnectors(res.data.response);
+          setIsLoadingConnectors(false);
         });
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     };
 
     fetchData();
   }, []);
 
-  // Organize items into categories using the 'category' property
-  const itemsByCategory = arrTypes.reduce((acc, item) => {
-    if (!acc[item.category]) {
-      acc[item.category] = [];
-    }
-    acc[item.category].push(item);
-    return acc;
-  }, {});
-
-
   return (
     <>
-      {!isLoadingTypes ? (
+      {!isLoadingConnectors ? (
         <>
-        <CrateConnector chooseTypeId={chooseTypeId} chooseTypeName={chooseTypeName} />
+          <CreateConnector />
           <Box
             sx={{
-              flex: 1,
-              height: "calc(100vh - 120px)",
+              mt: "20px",
+              height: "calc(100vh - 150px)",
               overflowY: "auto",
-              p: 2,
               bgcolor: "#f5f5f5",
             }}
           >
-            {arrCategories.map((category, index) => {
-              return (
-                <div key={index} sx={{ mb: 2 }}>
-                  <h2 className="category-title">{category} </h2>
-                  <Box className="card-container">
-                    {itemsByCategory[category]?.map((item) => (
-                      <div key={item._id}>
-                        <TypeCard item={item} chooseTypeId={chooseTypeId} setChooseTypeId={setChooseTypeId} setChooseTypeName={setChooseTypeName} />
-                      </div>
-                    ))}
-                  </Box>
-                </div>
-              );
-            })}
+            <TableContainer
+              component={Paper}
+              sx={{ width: "98%", margin: "auto" }}
+            >
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <NameHead
+                      arrConnectors={arrConnectors}
+                      setArrConnectors={setArrConnectors}
+                    />
+                    <TypeHead
+                      arrConnectors={arrConnectors}
+                      setArrConnectors={setArrConnectors}
+                    />
+                    <StatusHead
+                      arrConnectors={arrConnectors}
+                      setArrConnectors={setArrConnectors}
+                    />
+                    <UrlHead />
+                    <DescriptionHead />
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {arrConnectors.map((item) => (
+                    <TableRow key={item._id}>
+                      <NameBody item={item} />
+                      <TypeBody item={item} />
+                      <StatusBody item={item} />
+                      <UrlBody item={item} />
+                      <DescriptionBody item={item} />
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Box>
-          
+          <div className="fotter-home"></div>
         </>
       ) : null}
     </>

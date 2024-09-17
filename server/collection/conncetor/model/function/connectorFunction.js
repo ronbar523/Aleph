@@ -6,7 +6,8 @@ const createConnector = async (
   status,
   description,
   url,
-  token,
+  typeId,
+  token
 ) => {
   const newConnector = new Connector({
     name,
@@ -17,13 +18,18 @@ const createConnector = async (
       url: url,
     },
     credentials: {
+      typeId: typeId,
       token: token,
     },
   });
   return newConnector.save();
 };
 
+const findAllConnector = () => {
+  return Connector.find();
+};
 
 module.exports = {
   createConnector,
+  findAllConnector,
 };

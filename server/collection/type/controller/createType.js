@@ -15,15 +15,21 @@ const create = async (req, res) => {
         requestBody.name,
         requestBody.image,
         requestBody.category,
-        requestBody.credentials.token
+        //requestBody.name,
+        requestBody.fields.type,
+        requestBody.fields.validationRegex,
+        requestBody.fields.isCredentials,
+        // requestBody.credentials.token
       );
 
+      console.log(5)
       res.json({
         status: 201,
         msg: "You've successfully created type connector",
         response: connectorType,
       });
     } else {
+      console.log(err)
       res.json({ msg: "Connector's type name already exist" });
     }
   } catch (err) {
